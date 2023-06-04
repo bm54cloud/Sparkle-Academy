@@ -1,16 +1,15 @@
-#Use this ConfigMap to tell NGINX to listen on port 8080 (NGINX_PORT) 
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-conf
+  name: nginx-combo-cm
 data:
+  NGINX_PORT: "8088"
   nginx.conf: |
       server {
           listen       ${NGINX_PORT};
           server_name  localhost;
           location / {
-            root   /usr/share/nginx/html; 
+            root   /usr/share/nginx/html;
             index  index.html index.htm;
         }
       }
-

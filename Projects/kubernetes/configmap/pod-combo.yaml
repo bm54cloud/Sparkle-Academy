@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-cm
+  labels:
+    course: zarf-101
+    module: k8s-objects
+    topic: configMaps
+spec:
+  containers:
+  - name: nginx-cm
+    image: nginx:1.23.1
+    ports:
+    - containerPort: 8088
+    env:
+      - name: NGINX_PORT
+        valueFrom:
+          configMapKeyRef:
+            name: nginx-combo-cm
+            key: NGINX_PORT
+    volumeMounts:
+    - name: config
+      mountPath: "/etc/nginx/templates/default.conf.template"
+      readOnly: true
+      subPath: nginx.conf
+  volumes:
+  - name: config
+    configMap:
+      name: nginx-combo-cm
+      items:
+        - key: nginx.conf
+          path: nginx.conf
